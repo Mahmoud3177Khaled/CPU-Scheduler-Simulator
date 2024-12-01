@@ -3,7 +3,7 @@ import java.util.List;
 public class ResultPrinter {
     public static void printResults(List<Process> processes) {
         for (Process p : processes) {
-            System.out.println("Process " + p.id + " - Waiting Time: " + p.waitingTime
+            System.out.println("Process " + p.name + " - Waiting Time: " + p.waitingTime
                     + ", Turnaround Time: " + p.turnaroundTime + ", Completion Time: " + p.completionTime);
         }
     }

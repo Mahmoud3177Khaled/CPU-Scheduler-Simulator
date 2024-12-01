@@ -1,5 +1,5 @@
 public class Process {
-    int id;
+    String name;
     int arrivalTime;
     int burstTime;
     int priority; /// for priority scheduling
@@ -8,17 +8,29 @@ public class Process {
     int waitingTime;
     int turnaroundTime;
     int effectiveBurstTime;
+    int quantum;
+    int FCAIFactor;
 
-    public Process(int id, int arrivalTime, int burstTime) {
-        this(id, arrivalTime, burstTime, 0);
+    public Process(String name, int arrivalTime, int burstTime) {
+        this(name, arrivalTime, burstTime, 0);
     }
 
-    public Process(int id, int arrivalTime, int burstTime, int priority) {
-        this.id = id;
+    public Process(String name, int arrivalTime, int burstTime, int priority) {
+        this.name = name;
         this.arrivalTime = arrivalTime;
         this.burstTime = burstTime;
         this.priority = priority;
         this.remainingTime = burstTime;
         this.effectiveBurstTime = burstTime;
+    }
+    public Process(String name, int burstTime, int arrivalTime, int priority,int quantum) {
+        this.name = name;
+        this.burstTime = burstTime;
+        this.arrivalTime = arrivalTime;
+        this.priority = priority;
+        this.remainingTime = burstTime;
+        this.effectiveBurstTime = burstTime;
+        this.quantum = quantum;
+        this.FCAIFactor = 0;
     }
 }
