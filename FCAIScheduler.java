@@ -22,23 +22,31 @@ public class FCAIScheduler implements Scheduler {
 
     }
     private void calcFCAIFactor(Process process){
-            process.FCAIFactor =(10 - process.priority) + (int)(process.arrivalTime / V1) +(int)(process.remainingTime / V2);
+            process.FCAIFactor =(int)((10 - process.priority) + Math.ceil(process.arrivalTime / V1) +Math.ceil(process.remainingTime / V2));
     }
 
     @Override
     public void schedule(List<Process> processes) {
+        Comparator<Process> arrivalTimeComparator = (p1, p2) -> Integer.compare(p1.arrivalTime, p2.arrivalTime);
         Comparator<Process> FCAIFactorComparator = (p1, p2) -> Integer.compare(p2.FCAIFactor, p1.FCAIFactor);
-        PriorityQueue<Process> pq = new PriorityQueue<>(FCAIFactorComparator);
+        PriorityQueue<Process> arrivalTimePQ = new PriorityQueue<>(arrivalTimeComparator);
+        PriorityQueue<Process> FCAIFactorPQ = new PriorityQueue<>(FCAIFactorComparator);
         calcV1_V2(processes);
         while (!processes.isEmpty()){
             calcFCAIFactor(processes.get(0));
-            pq.add(processes.get(0));
+            arrivalTimePQ.add(processes.get(0));
             processes.remove(0);
         }
+
         time = 0;
-        while (!pq.isEmpty()) { 
-            Process p = pq.poll();
-            System.out.println( p.name+" "+p.FCAIFactor);
+        
+        while (!arrivalTimePQ.isEmpty() || !FCAIFactorPQ.isEmpty()) { 
+            while(arrivalTimePQ.element().arrivalTime == time){
+                FCAIFactorPQ.add(arrivalTimePQ.poll());
+            }
+            // Process p = FCAIFactorPQ.poll();
+            // System.out.println( p.name+" "+p.FCAIFactor);
+            time++;
         }
     }
 
