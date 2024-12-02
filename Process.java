@@ -8,8 +8,6 @@ public class Process {
     int waitingTime;
     int turnaroundTime;
     int effectiveBurstTime;
-    int quantum;
-    int FCAIFactor;
 
     public Process(String name, int arrivalTime, int burstTime) {
         this(name, arrivalTime, burstTime, 0);
@@ -22,15 +20,5 @@ public class Process {
         this.priority = priority;
         this.remainingTime = burstTime;
         this.effectiveBurstTime = burstTime;
-    }
-    public Process(String name, int burstTime, int arrivalTime, int priority,int quantum) {
-        this.name = name;
-        this.burstTime = burstTime;
-        this.arrivalTime = arrivalTime;
-        this.priority = priority;
-        this.remainingTime = burstTime;
-        this.effectiveBurstTime = burstTime;
-        this.quantum = quantum;
-        this.FCAIFactor = 0;
     }
 }

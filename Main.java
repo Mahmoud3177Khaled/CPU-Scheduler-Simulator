@@ -39,7 +39,7 @@ public class Main {
                     arrivalTime = input.nextInt();
                     priority = input.nextInt();
                     quantum = input.nextInt();
-                    processes.add(new Process(name,burstTime,arrivalTime,priority,quantum));
+                    processes.add(new FCAIProcess(name,burstTime,arrivalTime,priority,quantum));
                     numberOfProcesses--;
                 }
             }
