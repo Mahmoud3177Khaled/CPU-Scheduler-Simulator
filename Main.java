@@ -1,6 +1,6 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
@@ -32,14 +32,14 @@ public class Main {
                 scheduler = new FCAIScheduler();
                 System.out.print("Enter the number of processes: ");
                 numberOfProcesses = input.nextInt();
-                System.out.println("Enter the processes in form(name - Burst time - Arrival time - Priority - Quantum): ");
+                System.out.println("Enter the processes in form(name - Arrival time - Burst time4 - Priority - Quantum): ");
                 while (numberOfProcesses != 0) { 
                     name = input.next();
                     burstTime = input.nextInt();
                     arrivalTime = input.nextInt();
                     priority = input.nextInt();
                     quantum = input.nextInt();
-                    processes.add(new FCAIProcess(name,burstTime,arrivalTime,priority,quantum));
+                    processes.add(new FCAIProcess(name,arrivalTime,burstTime,priority,quantum));
                     numberOfProcesses--;
                 }
             }
