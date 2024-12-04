@@ -7,13 +7,19 @@ public class ResultPrinter {
                     + ", Turnaround Time: " + p.turnaroundTime);
         }
     }
+
     public static void printQuantumUpdates(List<Process> processes) {
         for (Process p : processes) {
-            System.out.println(p.name+": ");
-            for (int i = 0; i < ((FCAIProcess) p).quantumUpdates.size(); i++) {
-                System.out.println("in " + ((FCAIProcess) p).quantumUpdates.get(i).time + " time, the quantum: " + ((FCAIProcess) p).quantumUpdates.get(i).prevQuantum
-                + " --> " + ((FCAIProcess) p).quantumUpdates.get(i).currentQuantum);
+            System.out.println(p.name + ": ");
+            if (((FCAIProcess) p).quantumUpdates.isEmpty()) {
+                System.out.println("  the quantum don't changed.");
+            } else {
+                for (int i = 0; i < ((FCAIProcess) p).quantumUpdates.size(); i++) {
+                    System.out.println("  in " + ((FCAIProcess) p).quantumUpdates.get(i).time + " time, the quantum: "
+                            + ((FCAIProcess) p).quantumUpdates.get(i).prevQuantum
+                            + " --> " + ((FCAIProcess) p).quantumUpdates.get(i).currentQuantum);
 
+                }
             }
         }
     }

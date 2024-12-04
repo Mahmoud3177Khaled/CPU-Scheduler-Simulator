@@ -14,9 +14,9 @@ public class Main {
         int priority;
         int quantum;
 
-        System.out.println(" ----------------------------");
-        System.out.println("|  CPU Schedulers Simulator  |");
-        System.out.println(" ----------------------------");
+        System.out.println("         ----------------------------");
+        System.out.println("        |  CPU Schedulers Simulator  |");
+        System.out.println("         ----------------------------");
         System.out.println();
         System.out.println("Choose the Scheduling algorithm: ");
         System.out.println("    1-Non-preemptive Priority Scheduling.");
@@ -32,38 +32,43 @@ public class Main {
                 scheduler = new FCAIScheduler();
                 System.out.print("Enter the number of processes: ");
                 numberOfProcesses = input.nextInt();
-                System.out.println("Enter the processes in form(name - Arrival time - Burst time - Priority - Quantum): ");
-                while (numberOfProcesses != 0) { 
+                System.out.println(
+                        "Enter the processes in form(name - Arrival time - Burst time - Priority - Quantum): ");
+                while (numberOfProcesses != 0) {
                     name = input.next();
                     burstTime = input.nextInt();
                     arrivalTime = input.nextInt();
                     priority = input.nextInt();
                     quantum = input.nextInt();
-                    processes.add(new FCAIProcess(name,arrivalTime,burstTime,priority,quantum));
+                    processes.add(new FCAIProcess(name, arrivalTime, burstTime, priority, quantum));
                     numberOfProcesses--;
                 }
+                scheduler.schedule(processes);
+                List<processPeriod> periods = ((FCAIScheduler) scheduler).getProcessPeriods();
+                System.out.println("\n--------------------------");
+                System.out.println("Processes execution order |");
+                System.out.println("--------------------------");
+                int time = 0;
+                for (processPeriod processPeriod : periods) {
+                    System.out.println(time + " --> " + (time+processPeriod.period )+ " - " + processPeriod.process.name);
+                    time += processPeriod.period;
+                }
+                List<Process> executedProcesses = ((FCAIScheduler) scheduler).getExecutedProcesses();
+                MetricsCalculator.calculateTimes(executedProcesses);
+                System.out.println("\n--------------------------------------------------");
+                System.out.println("Waiting Time and Turnaround Time for each process |");
+                System.out.println("--------------------------------------------------");
+                ResultPrinter.printResults(executedProcesses);
+                System.out.println("\n--------------------------------------------");
+                System.out.println("Average Waiting Time and Average Turnaround |");
+                System.out.println("--------------------------------------------");
+                ResultPrinter.printMetrics(executedProcesses);
+                System.out.println("\n-----------------------------------------------------");
+                System.out.println("all history update of quantum time for each process: |");
+                System.out.println("-----------------------------------------------------");
+                ResultPrinter.printQuantumUpdates(executedProcesses);
             }
             default -> throw new AssertionError();
         }
-        scheduler.schedule(processes);
-        List<processPeriod> periods =((FCAIScheduler) scheduler).getProcessPeriods();
-        List<Process> executedProcesses =((FCAIScheduler) scheduler).getExecutedProcesses();
-        for (processPeriod p : periods) {
-            System.out.println(p.process.name +" "+p.period);
-        }
-        for (Process p : executedProcesses) {
-            System.out.println(p.name +" "+p.completionTime);
-        }
-        MetricsCalculator.calculateTimes(executedProcesses);
-        ResultPrinter.printResults(executedProcesses);
-        ResultPrinter.printMetrics(executedProcesses);
-        ResultPrinter.printQuantumUpdates(executedProcesses);
-        //  // Calculate times after scheduling
-        // ShortestJobFirstScheduler sjfScheduler = (ShortestJobFirstScheduler) scheduler;
-        // List<Process> completedProcesses = sjfScheduler.getCompletedProcesses();
-        // MetricsCalculator.calculateTimes(completedProcesses);
-        // // Print results
-        // ResultPrinter.printResults(completedProcesses);
-        // ResultPrinter.printMetrics(completedProcesses);
     }
 }
