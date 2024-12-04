@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,13 +19,13 @@ public class GUI_main {
         // Scanner input = new Scanner(System.in);
         List<Process> processes = new ArrayList<>();
         List<Color> colors = new ArrayList<>();
-        colors.add(new Color(80));
-        colors.add(new Color(60));
-        colors.add(new Color(100));
-        colors.add(new Color(70));
-        colors.add(new Color(110));
+        colors.add(new Color(142,69,133));
+        colors.add(new Color(190,81,3));
+        colors.add(new Color(99,149,238));
+        colors.add(new Color(255,191,0));
+        colors.add(new Color(205,28,24));
         colors.add(new Color(50));
-        colors.add(new Color(180));
+        colors.add(new Color(222,161,147));
         colors.add(new Color(90));
         colors.add(new Color(130));
         colors.add(new Color(140));
@@ -40,11 +40,16 @@ public class GUI_main {
         // int arrivalTime;
         // int priority;
         // int quantum;
+        // barProcesses.add(new Process('a', ));
+        statProcesses.add(new Process("a", 1, 1));
+        statProcesses.add(new Process("bbb", 2, 1));
+        statProcesses.add(new Process("c", 3, 1));
+        statProcesses.add(new Process("d", 4, 1));
 
         // Create the main frame
-        JFrame frame = new JFrame("Menu Example");
+        JFrame frame = new JFrame("CPU Schedulers Project");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 650);
+        frame.setSize(600, 650);
 
         // Create the CardLayout
         CardLayout cardLayout = new CardLayout();
@@ -83,6 +88,7 @@ public class GUI_main {
         JButton pjfButton = new JButton("Priority scheduling");
         JButton srtfButton = new JButton("Shortest remaining time");
         JButton fcaiButton = new JButton("FCAI Scheduling");
+        JButton testButton = new JButton("testButton");
 
         // sjfButton.setFont(new Font());
         // sjfButton.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -95,12 +101,14 @@ public class GUI_main {
         pjfButton.setPreferredSize(buttonSize);
         srtfButton.setPreferredSize(buttonSize);
         fcaiButton.setPreferredSize(buttonSize);
+        testButton.setPreferredSize(buttonSize);
 
         // Add action listeners to buttons
         sjfButton.addActionListener(e -> cardLayout.show(mainPanel, "sjf"));
         pjfButton.addActionListener(e -> cardLayout.show(mainPanel, "pjf"));
         srtfButton.addActionListener(e -> cardLayout.show(mainPanel, "srtf"));
         fcaiButton.addActionListener(e -> cardLayout.show(mainPanel, "fcai"));
+        testButton.addActionListener(e -> cardLayout.show(mainPanel, "colored"));
 
         
         // Add components to the menu panel
@@ -116,6 +124,7 @@ public class GUI_main {
         menuPanel.add(srtfButton);
         // menuPanel.add(Box.createRigidArea(new Dimension(800, 0))); // Forces a new line (width > panel width)
         menuPanel.add(fcaiButton);
+        // menuPanel.add(testButton);
         menuPanel.add(Box.createRigidArea(new Dimension(800, 0))); // Forces a new line (width > panel width)
         menuPanel.add(mainLabel3);
         menuPanel.add(Box.createRigidArea(new Dimension(800, 0))); // Forces a new line (width > panel width)
@@ -173,12 +182,14 @@ public class GUI_main {
                 // barProcesses = scheduler.getBarProcesses();
                 // barProcesses = scheduler.getStatProcesses();
                 
-                JOptionPane.showMessageDialog(
-                    null,                      
-                    "Process sent to shortest job first schedular",
-                    "Done",                       
-                    JOptionPane.INFORMATION_MESSAGE
-                );
+                // JOptionPane.showMessageDialog(
+                //     null,                      
+                //     "Process sent to shortest job first schedular",
+                //     "Done",                       
+                //     JOptionPane.INFORMATION_MESSAGE
+                // );
+
+                cardLayout.show(mainPanel, "colored");
             }
 
         });
@@ -309,12 +320,14 @@ public class GUI_main {
                 // barProcesses = scheduler.getBarProcesses();
                 // barProcesses = scheduler.getStatProcesses();
                 
-                JOptionPane.showMessageDialog(
-                    null,                      
-                    "Process sent to priority schedular",
-                    "Done",                       
-                    JOptionPane.INFORMATION_MESSAGE
-                );
+                // JOptionPane.showMessageDialog(
+                //     null,                      
+                //     "Process sent to priority schedular",
+                //     "Done",                       
+                //     JOptionPane.INFORMATION_MESSAGE
+                // );
+
+                cardLayout.show(mainPanel, "colored");
             }
 
         });
@@ -453,12 +466,14 @@ public class GUI_main {
                 // barProcesses = scheduler.getBarProcesses();
                 // barProcesses = scheduler.getStatProcesses();
                 
-                JOptionPane.showMessageDialog(
-                    null,                      
-                    "Process sent to shortest remaining time first schedular",
-                    "Done",                       
-                    JOptionPane.INFORMATION_MESSAGE
-                );
+                // JOptionPane.showMessageDialog(
+                //     null,                      
+                //     "Process sent to shortest remaining time first schedular",
+                //     "Done",                       
+                //     JOptionPane.INFORMATION_MESSAGE
+                // );
+
+                cardLayout.show(mainPanel, "colored");
             }
 
         });
@@ -597,12 +612,14 @@ public class GUI_main {
                 // barProcesses = scheduler.getBarProcesses();
                 // barProcesses = scheduler.getStatProcesses();
                 
-                JOptionPane.showMessageDialog(
-                    null,                      
-                    "Process sent to FCAI schedular",
-                    "Done",                       
-                    JOptionPane.INFORMATION_MESSAGE
-                );
+                // JOptionPane.showMessageDialog(
+                //     null,                      
+                //     "Process sent to FCAI schedular",
+                //     "Done",                       
+                //     JOptionPane.INFORMATION_MESSAGE
+                // );
+
+                cardLayout.show(mainPanel, "colored");
             }
 
         });
@@ -685,6 +702,106 @@ public class GUI_main {
         fcaiPanel.add(Box.createRigidArea(new Dimension(800, 0)));
         fcaiPanel.add(fcaiback);
 
+        // output panel
+        JPanel coloredPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 20));
+
+        JLabel outputlabel1 = new JLabel("Results:");
+        outputlabel1.setFont(new Font("Arial", Font.BOLD, 17));
+        JLabel outputlabel2 = new JLabel("CPU Scheduling graph:");
+        outputlabel2.setFont(new Font("Arial", Font.BOLD, 15));
+
+        JPanel coloredBar = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+
+                // Define sections and colors
+                int panelWidth = getWidth();
+                int panelHeight = getHeight();
+                int lineHeight = 50; // Height of the colored line
+
+                // Example data: segments and their colors
+                Integer[] segmentWidths = {100, 150, 200, 100}; // Width of each section
+                Color[] segmentColors = {new Color(142,69,133), new Color(190,81,3), new Color(99,149,238), new Color(255,191,0)};
+
+                ArrayList<Integer> segmentWidthsL = new ArrayList<Integer>(Arrays.asList(segmentWidths));
+
+                int sum = 0;
+                for (int i = 0; i < segmentWidthsL.size(); i++) {
+                    sum += segmentWidthsL.get(i);
+                }
+                double scale = (400.0/sum);
+                System.out.println(sum);
+                System.out.println(scale);
+
+                // Draw the rectangles
+                int xOffset = 0;
+                for (int i = 0; i < segmentWidths.length; i++) {
+                    g2d.setColor(segmentColors[i]);
+                    g2d.fillRect(xOffset, (panelHeight - lineHeight) / 2, (int) (segmentWidths[i]*scale), lineHeight);
+                    xOffset += segmentWidths[i]*scale;
+                }
+            }
+        };
+        coloredBar.setPreferredSize(new Dimension(400, 50));
+
+        JLabel outputlabel3 = new JLabel("---------------------------------   Processes Information:   ---------------------------------");
+        outputlabel3.setFont(new Font("Arial", Font.BOLD, 15));
+
+        
+        
+        JPanel tablePanel = new JPanel(new GridLayout(statProcesses.size()+1, 7, 10, 10)); 
+        tablePanel.add(new JLabel("Process"));
+        tablePanel.add(new JLabel("color"));
+        tablePanel.add(new JLabel("Name"));
+        tablePanel.add(new JLabel("Priority"));
+        tablePanel.add(new JLabel("Comp. time"));
+        tablePanel.add(new JLabel("Waiting"));
+        tablePanel.add(new JLabel("Turnaround"));
+        
+        int i = 0;
+        for (Process proc : statProcesses) {
+            
+            JPanel colorSquare = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
+            colorSquare.setPreferredSize(new Dimension(1, 10));
+            colorSquare.setBackground(colors.get(i));
+            // procLabel.setFont(new Font("Arial", Font.BOLD, 15));
+            tablePanel.add(new JLabel(Integer.toString(i)));
+            tablePanel.add(colorSquare);
+            tablePanel.add(new JLabel(proc.name));
+            tablePanel.add(new JLabel(Integer.toString(proc.priority)));
+            tablePanel.add(new JLabel(Integer.toString(proc.completionTime)));
+            tablePanel.add(new JLabel(Integer.toString(proc.waitingTime)));
+            tablePanel.add(new JLabel(Integer.toString(proc.turnaroundTime)));
+            i++;
+        }
+
+        JLabel outputlabel4 = new JLabel("-----------------------------------------    Statistics:    -----------------------------------------");
+        outputlabel4.setFont(new Font("Arial", Font.BOLD, 15));
+        JLabel outputlabel5 = new JLabel("Avergae waiting time:");
+        outputlabel5.setFont(new Font("Arial", Font.BOLD, 12));
+        JLabel outputlabel6 = new JLabel("Average turnaround time:");
+        outputlabel6.setFont(new Font("Arial", Font.BOLD, 12));
+
+        // loop on statProcess once provided and add all them divide on its length to to get avergages
+
+        coloredPanel.add(outputlabel1);
+        coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
+        coloredPanel.add(outputlabel2);
+        coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
+        coloredPanel.add(coloredBar);
+        coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
+        coloredPanel.add(outputlabel3);
+        coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
+        coloredPanel.add(tablePanel);
+        coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
+        coloredPanel.add(outputlabel4);
+        coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
+        coloredPanel.add(outputlabel5);
+        coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
+        coloredPanel.add(outputlabel6);
+
 
         // Add panels to the CardLayout
         mainPanel.add(menuPanel, "menu");
@@ -692,6 +809,7 @@ public class GUI_main {
         mainPanel.add(pjfPanel, "pjf");
         mainPanel.add(srtfPanel, "srtf");
         mainPanel.add(fcaiPanel, "fcai");
+        mainPanel.add(coloredPanel, "colored");
 
         // Add main panel to frame
         frame.add(mainPanel);
