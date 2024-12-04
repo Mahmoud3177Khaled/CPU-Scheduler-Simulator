@@ -32,7 +32,7 @@ public class Main {
                 scheduler = new FCAIScheduler();
                 System.out.print("Enter the number of processes: ");
                 numberOfProcesses = input.nextInt();
-                System.out.println("Enter the processes in form(name - Arrival time - Burst time4 - Priority - Quantum): ");
+                System.out.println("Enter the processes in form(name - Arrival time - Burst time - Priority - Quantum): ");
                 while (numberOfProcesses != 0) { 
                     name = input.next();
                     burstTime = input.nextInt();
@@ -46,6 +46,11 @@ public class Main {
             default -> throw new AssertionError();
         }
         scheduler.schedule(processes);
+        List<processPeriod> periods =((FCAIScheduler) scheduler).getProcessPeriods();
+        List<Process> executedProcesses =((FCAIScheduler) scheduler).getExecutedProcesses();
+        for (processPeriod p : periods) {
+            System.out.println(p.process.name +" "+p.period);
+        }
         //  // Calculate times after scheduling
         // ShortestJobFirstScheduler sjfScheduler = (ShortestJobFirstScheduler) scheduler;
         // List<Process> completedProcesses = sjfScheduler.getCompletedProcesses();
