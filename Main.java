@@ -51,6 +51,13 @@ public class Main {
         for (processPeriod p : periods) {
             System.out.println(p.process.name +" "+p.period);
         }
+        for (Process p : executedProcesses) {
+            System.out.println(p.name +" "+p.completionTime);
+        }
+        MetricsCalculator.calculateTimes(executedProcesses);
+        ResultPrinter.printResults(executedProcesses);
+        ResultPrinter.printMetrics(executedProcesses);
+        ResultPrinter.printQuantumUpdates(executedProcesses);
         //  // Calculate times after scheduling
         // ShortestJobFirstScheduler sjfScheduler = (ShortestJobFirstScheduler) scheduler;
         // List<Process> completedProcesses = sjfScheduler.getCompletedProcesses();

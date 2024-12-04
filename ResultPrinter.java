@@ -4,7 +4,17 @@ public class ResultPrinter {
     public static void printResults(List<Process> processes) {
         for (Process p : processes) {
             System.out.println("Process " + p.name + " - Waiting Time: " + p.waitingTime
-                    + ", Turnaround Time: " + p.turnaroundTime + ", Completion Time: " + p.completionTime);
+                    + ", Turnaround Time: " + p.turnaroundTime);
+        }
+    }
+    public static void printQuantumUpdates(List<Process> processes) {
+        for (Process p : processes) {
+            System.out.println(p.name+": ");
+            for (int i = 0; i < ((FCAIProcess) p).quantumUpdates.size(); i++) {
+                System.out.println("in " + ((FCAIProcess) p).quantumUpdates.get(i).time + " time, the quantum: " + ((FCAIProcess) p).quantumUpdates.get(i).prevQuantum
+                + " --> " + ((FCAIProcess) p).quantumUpdates.get(i).currentQuantum);
+
+            }
         }
     }
 

@@ -30,12 +30,13 @@ public class FCAIScheduler implements Scheduler {
         process.FCAIFactor = (int) ((10 - process.priority) + Math.ceil(process.arrivalTime / V1)
                 + Math.ceil(process.remainingTime / V2));
     }
-    private Process getHigherProcess(ArrayList<Process> arr){
-        FCAIProcess high =(FCAIProcess)arr.get(0);
-        FCAIProcess p ;
+
+    private Process getHigherProcess(ArrayList<Process> arr) {
+        FCAIProcess high = (FCAIProcess) arr.get(0);
+        FCAIProcess p;
         for (int i = 1; i < arr.size(); i++) {
             p = (FCAIProcess) arr.get(i);
-            if(p.FCAIFactor < high.FCAIFactor){
+            if (p.FCAIFactor < high.FCAIFactor) {
                 high = p;
             }
         }
@@ -60,147 +61,97 @@ public class FCAIScheduler implements Scheduler {
         FCAIProcess currentProcess = null;
         // while there is process will be come or is waiting
         while (!arrivalTimePQ.isEmpty() || !waitingList.isEmpty()) {
-           // System.out.println("------------------------------------------------------");
-            //System.out.println(time + " --> " + (time + 1));
-            // while there are processes come in this time
             while (!arrivalTimePQ.isEmpty() && arrivalTimePQ.peek().arrivalTime == time) {
-                // System.out.println(arrivalTimePQ.peek().name + " arrived");
                 waitingList.add(arrivalTimePQ.poll());
             }
             if (currentProcess == null) { // if CPU is empty
-                // System.out.println(time+ " " + currentProcess);
                 if (!waitingList.isEmpty()) {
-                    currentProcess = (FCAIProcess) waitingList.get(0);//-----------------------------
+                    currentProcess = (FCAIProcess) waitingList.get(0);
                     waitingList.remove(0);
                     currentProcess.startPeriod = time;
-                    // processesExecutionOrderList.add(currentProcess.name);
-                    //System.out.println(currentProcess.name + " running");
-                    currentProcess.remainingTime = currentProcess.remainingTime -1;
+                    currentProcess.remainingTime = currentProcess.remainingTime - 1;
                     calcFCAIFactor(currentProcess);
-                 } //else {
-                //    // processesExecutionOrderList.add("empty");
-                //     System.out.println("empty");
-                // }
+                }
             } else {// there is a process is executing
                 if (currentProcess.remainingTime == 0) { // the process is completed
                     currentProcess.completionTime = time;
-                    processPeriods.add(new processPeriod(currentProcess,time-currentProcess.startPeriod));
+                    processPeriods.add(new processPeriod(currentProcess, time - currentProcess.startPeriod));
                     executedProcesses.add(currentProcess);
-                   // System.out.println(currentProcess.name +" --> completed");
-                    // FCAIProcess temp = currentProcess;
                     if (!waitingList.isEmpty()) {
                         currentProcess = (FCAIProcess) waitingList.get(0);
                         waitingList.remove(0);
                         currentProcess.startPeriod = time;
                         calcFCAIFactor(currentProcess);
-                        currentProcess.remainingTime = currentProcess.remainingTime -1;
-                        //processesExecutionOrderList.add(currentProcess.name);
+                        currentProcess.remainingTime = currentProcess.remainingTime - 1;
                     } else {
                         currentProcess = null;
-                        //processesExecutionOrderList.add("empty");
                     }
-                    // //System.out.println(currentProcess.name);
-                    // System.out.println(time +currentProcess.name+"2");
-                    // currentProcess.remainingTime = currentProcess.remainingTime -1;
-                    // currentProcess = null;
-                } else if (currentProcess.quantum == (time - currentProcess.startPeriod)) {// the process is completed
-                                                                                           // his quantum
+                } else if (currentProcess.quantum == (time - currentProcess.startPeriod)) {// the process is completed his quantum
                     currentProcess.quantum += 2;
-                    // currentProcess.remainingTime = currentProcess.remainingTime -1;
+                    currentProcess.quantumUpdates
+                            .add(new quantumUpdate(currentProcess.quantum - 2, currentProcess.quantum, time));
                     FCAIProcess temp = currentProcess;
                     if (!waitingList.isEmpty()) {
                         currentProcess = (FCAIProcess) waitingList.get(0);
                         waitingList.remove(0);
                         currentProcess.startPeriod = time;
-                        //processesExecutionOrderList.add(currentProcess.name);
-                        currentProcess.remainingTime = currentProcess.remainingTime -1;
-                        //System.out.println(currentProcess.name + " "+ currentProcess.FCAIFactor +" replace "+temp.name +" "+temp.FCAIFactor);
+                        currentProcess.remainingTime = currentProcess.remainingTime - 1;
                         calcFCAIFactor(currentProcess);
                     } else {
-                       currentProcess = null;
-                   }
-                    processPeriods.add(new processPeriod(temp,time-temp.startPeriod));
-                   // System.out.println("factor before: "+temp.FCAIFactor);
+                        currentProcess = null;
+                    }
+                    processPeriods.add(new processPeriod(temp, time - temp.startPeriod));
                     calcFCAIFactor(temp);
-                    //System.out.println("factor after: "+temp.FCAIFactor);
                     waitingList.add(temp);
-                    // System.out.println(time +temp.name+"3");
-                }
-                else if((time - currentProcess.startPeriod) >= Math.ceil((40 *currentProcess.quantum))/100){ //the process exceeded his non-preemptive time
-                    System.out.println("time " + (40 *currentProcess.quantum)/100);
-                    if(!waitingList.isEmpty()){
+                } else if ((time - currentProcess.startPeriod) >= Math.ceil((40 * currentProcess.quantum)) / 100) { // the process exceeded his non-preemptive time
+                    if (!waitingList.isEmpty()) {
                         FCAIProcess p = (FCAIProcess) getHigherProcess(waitingList);
-                        if(p.FCAIFactor <= currentProcess.FCAIFactor){
-                            //System.out.println("factor "+ p.FCAIFactor+" "+currentProcess.FCAIFactor);
-                            currentProcess.quantum += (currentProcess.quantum -(time-currentProcess.startPeriod));
-                            //System.out.println("factor before: "+currentProcess.FCAIFactor);
+                        if (p.FCAIFactor <= currentProcess.FCAIFactor) {
+                            int add = (currentProcess.quantum - (time - currentProcess.startPeriod));
+                            currentProcess.quantumUpdates
+                                    .add(new quantumUpdate(currentProcess.quantum, currentProcess.quantum + add, time));
+                            currentProcess.quantum += add;
                             calcFCAIFactor(currentProcess);
-                           // System.out.println("factor after: "+currentProcess.FCAIFactor);
-                           processPeriods.add(new processPeriod(currentProcess,time-currentProcess.startPeriod));
-                           FCAIProcess temp = (FCAIProcess) currentProcess;
+                            processPeriods.add(new processPeriod(currentProcess, time - currentProcess.startPeriod));
+                            FCAIProcess temp = (FCAIProcess) currentProcess;
                             currentProcess = p;
                             waitingList.remove(p);
                             currentProcess.startPeriod = time;
-                            currentProcess.remainingTime = currentProcess.remainingTime -1;
+                            currentProcess.remainingTime = currentProcess.remainingTime - 1;
                             calcFCAIFactor(temp);
                             waitingList.add(temp);
-                        }
-                        else{
-                            currentProcess.remainingTime = currentProcess.remainingTime -1;
+                        } else {
+                            currentProcess.remainingTime = currentProcess.remainingTime - 1;
                             calcFCAIFactor(currentProcess);
                         }
-                // System.out.println(p.FCAIFactor);
-                // System.out.println(currentProcess.FCAIFactor);
-                // if(p.FCAIFactor < currentProcess.FCAIFactor){
-                // System.out.println(444);
-                // currentProcess.remainingTime -= (time -currentProcess.startPeriod);
-                // FCAIFactorPQ.add(currentProcess);
-                // currentProcess = (FCAIProcess)FCAIFactorPQ.poll();
-                // processesExecutionOrderList.add(currentProcess.name);
-                // System.out.println(time + currentProcess.name + " 8");
-                // currentProcess.startPeriod = time;
-                // }
-                }else{
-                    currentProcess.remainingTime = currentProcess.remainingTime -1;
-                    calcFCAIFactor(currentProcess);
-                }
-                }
-                else {
-                    currentProcess.remainingTime = currentProcess.remainingTime -1;
+                    } else {
+                        currentProcess.remainingTime = currentProcess.remainingTime - 1;
+                        calcFCAIFactor(currentProcess);
+                    }
+                } else {
+                    currentProcess.remainingTime = currentProcess.remainingTime - 1;
                     calcFCAIFactor(currentProcess);
                 }
             }
-            // System.out.println(time + " "+currentProcess +" 9");
             time++;
-            if (currentProcess != null) {
-                //calcFCAIFactor(currentProcess);
-                System.out.println(currentProcess.name + " is running " + currentProcess.remainingTime);
-            } else {
-                System.out.println("is empty");
-            }
-            // if(time == 40){
-            //     break;
-            // }
         }
-        System.out.println(currentProcess.remainingTime);
-        while(currentProcess != null && currentProcess.remainingTime > 0){
-            System.out.println("---------------------------");
-            System.out.println(time + " --> " +(time+1));
-            System.out.println(currentProcess.name);
+        while (currentProcess != null && currentProcess.remainingTime > 0) {
             time++;
             currentProcess.remainingTime--;
-            if(currentProcess.remainingTime == 0){
+            if (currentProcess.remainingTime == 0) {
                 currentProcess.completionTime = time;
-                    processPeriods.add(new processPeriod(currentProcess,time-currentProcess.startPeriod));
-                    executedProcesses.add(currentProcess);
+                processPeriods.add(new processPeriod(currentProcess, time - currentProcess.startPeriod));
+                executedProcesses.add(currentProcess);
             }
         }
 
     }
-    public List<Process> getExecutedProcesses(){
+
+    public List<Process> getExecutedProcesses() {
         return executedProcesses;
     }
-    public List<processPeriod> getProcessPeriods(){
+
+    public List<processPeriod> getProcessPeriods() {
         return processPeriods;
     }
 
