@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "GUI_main",
+            "request": "launch",
+            "mainClass": "GUI_main",
+            "projectName": "CPU-Scheduler-Simulator_f5cf2b81"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
