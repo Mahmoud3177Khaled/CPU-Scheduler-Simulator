@@ -722,7 +722,7 @@ public class GUI_main {
                 int lineHeight = 50; // Height of the colored line
 
                 // Example data: segments and their colors
-                Integer[] segmentWidths = {100, 150, 200, 100}; // Width of each section
+                Integer[] segmentWidths = {100, 150, 200, 1000}; // Width of each section
                 Color[] segmentColors = {new Color(142,69,133), new Color(190,81,3), new Color(99,149,238), new Color(255,191,0)};
 
                 ArrayList<Integer> segmentWidthsL = new ArrayList<Integer>(Arrays.asList(segmentWidths));
@@ -785,6 +785,25 @@ public class GUI_main {
         outputlabel6.setFont(new Font("Arial", Font.BOLD, 12));
 
         // loop on statProcess once provided and add all them divide on its length to to get avergages
+        int sum = 0;
+        double avgWaiting = 0;
+        double avgTurnaround = 0;
+
+        for (Process proc : statProcesses) {
+            sum += proc.waitingTime;
+        }
+        avgWaiting = (double) sum/statProcesses.size();
+
+        for (Process proc : statProcesses) {
+            sum += proc.turnaroundTime;
+        }
+        avgTurnaround = (double) sum/statProcesses.size();
+
+        JLabel outputlabel7 = new JLabel(Double.toString(avgWaiting));
+        outputlabel7.setFont(new Font("Arial", Font.BOLD, 12));
+        JLabel outputlabel8 = new JLabel(Double.toString(avgTurnaround));
+        outputlabel8.setFont(new Font("Arial", Font.BOLD, 12));
+
 
         coloredPanel.add(outputlabel1);
         coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
@@ -799,8 +818,10 @@ public class GUI_main {
         coloredPanel.add(outputlabel4);
         coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
         coloredPanel.add(outputlabel5);
+        coloredPanel.add(outputlabel7);
         coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
         coloredPanel.add(outputlabel6);
+        coloredPanel.add(outputlabel8);
 
 
         // Add panels to the CardLayout
