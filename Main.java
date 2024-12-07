@@ -14,6 +14,7 @@ public class Main {
         int arrivalTime;
         int priority;
         int quantum;
+        int contextSwitch;
 
         System.out.println("         ----------------------------");
         System.out.println("        |  CPU Schedulers Simulator  |");
@@ -98,7 +99,7 @@ public class Main {
                 System.out.print("Enter the number of processes: ");
                 numberOfProcesses = input.nextInt();
                 System.out.println(
-                        "Enter the processes in form(name - Arrival time - Burst time): ");
+                    "Enter the processes in form(name - Arrival time - Burst time): ");
                 while (numberOfProcesses != 0) {
                     name = input.next();
                     arrivalTime = input.nextInt();
@@ -106,6 +107,9 @@ public class Main {
                     processes.add(new Process(name, arrivalTime, burstTime,Color.black));
                     numberOfProcesses--;
                 }
+                System.out.print("Enter the context switch time: ");
+                contextSwitch = input.nextInt();
+                ((ShortestRemainingTimeFirst) scheduler).setContextSwitch(contextSwitch);
                 scheduler.schedule(processes);
                 //-------------------------
                 //-------------------------
