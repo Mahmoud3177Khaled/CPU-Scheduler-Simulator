@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab74eec0-396d-48fe-8fe6-8b49f9d77526" name="Changes" comment="add SRTF scheduler">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="ab74eec0-396d-48fe-8fe6-8b49f9d77526" name="Changes" comment="edit SRTF scheduler" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -97,7 +95,7 @@
       <workItem from="1733389833248" duration="765000" />
       <workItem from="1733406396717" duration="2952000" />
       <workItem from="1733591965145" duration="2068000" />
-      <workItem from="1733605144595" duration="1515000" />
+      <workItem from="1733605144595" duration="2391000" />
     </task>
     <task id="LOCAL-00001" summary="add SRTF scheduler">
       <option name="closed" value="true" />
@@ -107,7 +105,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733409832959</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="edit SRTF scheduler">
+      <option name="closed" value="true" />
+      <created>1733608173892</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1733608173892</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -115,6 +121,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add SRTF scheduler" />
-    <option name="LAST_COMMIT_MESSAGE" value="add SRTF scheduler" />
+    <MESSAGE value="edit SRTF scheduler" />
+    <option name="LAST_COMMIT_MESSAGE" value="edit SRTF scheduler" />
   </component>
 </project>
