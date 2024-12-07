@@ -605,7 +605,7 @@ public class GUI_main {
                 FCAIscheduler.schedule(processes);
                 
                 barProcesses = FCAIscheduler.getProcessPeriods();
-                statProcesses = FCAIscheduler.getExecutedProcesses();
+                statProcesses = FCAIscheduler.getCompletedProcesses();
                 // System.out.println(" stat size: " + statProcesses.size());
                 
                 JOptionPane.showMessageDialog(
