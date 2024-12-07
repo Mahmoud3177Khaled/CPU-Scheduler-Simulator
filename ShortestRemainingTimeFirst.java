@@ -10,7 +10,7 @@ public class ShortestRemainingTimeFirst implements Scheduler {
     private List<processPeriod> completedProcesses = new ArrayList<>();
     private List<Process> executedProcesses = new ArrayList<>();
     Process cs = new Process("cs",0,0, Color.gray);
-    int contextSwitch;
+    int contextSwitch = 0;
 
 
     public void setContextSwitch(int contextSwitch) {
@@ -53,7 +53,7 @@ public class ShortestRemainingTimeFirst implements Scheduler {
                         processPeriod processPeriod1 = new processPeriod (currentProcess, 1);
                         completedProcesses.add(contextPeriod);
                         completedProcesses.add(processPeriod1);
-                        currentTime++;
+                        currentTime+=contextSwitch;
 
                     }
                     else{
@@ -88,7 +88,7 @@ public class ShortestRemainingTimeFirst implements Scheduler {
                 currentProcess.completionTime = currentTime;
                 currentProcess = null;
                 completedProcesses.add(contextPeriod);
-                currentTime++;
+                currentTime+=contextSwitch;
             }
             currentTime++;
 
