@@ -1,19 +1,19 @@
-// import java.awt.Color;
-// import java.util.ArrayList;
-// import java.util.List;
-// import java.util.Scanner;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
-// public class Main {
-//     public static void main(String[] args) {
-//         Scanner input = new Scanner(System.in);
-//         List<Process> processes = new ArrayList<>();
-//         Scheduler scheduler;
-//         int numberOfProcesses;
-//         String name;
-//         int burstTime;
-//         int arrivalTime;
-//         int priority;
-//         int quantum;
+public class Main {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        List<Process> processes = new ArrayList<>();
+        Scheduler scheduler;
+        int numberOfProcesses;
+        String name;
+        int burstTime;
+        int arrivalTime;
+        int priority;
+        int quantum;
 
         System.out.println("         ----------------------------");
         System.out.println("        |  CPU Schedulers Simulator  |");
