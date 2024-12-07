@@ -82,6 +82,7 @@ public class ShortestRemainingTimeFirst implements Scheduler {
         return executedProcesses;
     }
 
+
     public List<processPeriod> getProcessPeriods() {
         return completedProcesses;
     }
