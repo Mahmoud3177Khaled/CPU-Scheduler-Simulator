@@ -41,4 +41,7 @@ public class PriorityScheduler implements Scheduler {
             }
         }
     }
+    public List<Process> getCompletedProcesses() {
+        return completedProcesses;
+    }
 }
