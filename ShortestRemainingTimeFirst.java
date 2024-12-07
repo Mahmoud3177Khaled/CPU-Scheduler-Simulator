@@ -77,9 +77,10 @@
 //     }
 
 
-//     public List<Process> getExecutedProcesses() {
-//         return executedProcesses;
-//     }
+    @Override
+    public List<Process> getCompletedProcesses() {
+        return executedProcesses;
+    }
 
 //     public List<processPeriod> getProcessPeriods() {
 //         return completedProcesses;

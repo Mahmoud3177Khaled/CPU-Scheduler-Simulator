@@ -40,6 +40,7 @@ public class ShortestJobFirstScheduler implements Scheduler {
         }
     }
 
+    @Override
     public List<Process> getCompletedProcesses() {
         return completedProcesses;
     }
