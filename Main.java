@@ -83,6 +83,38 @@ public class Main {
                 //-------------------------
                 //-------------------------
                 List<Process> executedProcesses = scheduler.getCompletedProcesses();
+                MetricsCalculator.calculateTimes(executedProcesses);
+                System.out.println("\n--------------------------------------------------");
+                System.out.println("Waiting Time and Turnaround Time for each process |");
+                System.out.println("--------------------------------------------------");
+                ResultPrinter.printResults(executedProcesses);
+                System.out.println("\n--------------------------------------------");
+                System.out.println("Average Waiting Time and Average Turnaround |");
+                System.out.println("--------------------------------------------");
+                ResultPrinter.printMetrics(executedProcesses);
+            }
+            case 3 -> {
+                scheduler = new ShortestRemainingTimeFirst();
+                System.out.print("Enter the number of processes: ");
+                numberOfProcesses = input.nextInt();
+                System.out.println(
+                        "Enter the processes in form(name - Arrival time - Burst time): ");
+                while (numberOfProcesses != 0) {
+                    name = input.next();
+                    burstTime = input.nextInt();
+                    arrivalTime = input.nextInt();
+                    processes.add(new Process(name, arrivalTime, burstTime,Color.black));
+                    numberOfProcesses--;
+                }
+                scheduler.schedule(processes);
+                //-------------------------
+                //-------------------------
+                //-------------------------
+                //-------------------------
+                //-------------------------
+                //-------------------------
+                //-------------------------
+                List<Process> executedProcesses = scheduler.getCompletedProcesses();
                 //MetricsCalculator.calculateTimes(executedProcesses);
                 System.out.println("\n--------------------------------------------------");
                 System.out.println("Waiting Time and Turnaround Time for each process |");

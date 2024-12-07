@@ -77,7 +77,8 @@ public class ShortestRemainingTimeFirst implements Scheduler {
     }
 
 
-    public List<Process> getExecutedProcesses() {
+    @Override
+    public List<Process> getCompletedProcesses() {
         return executedProcesses;
     }
 
