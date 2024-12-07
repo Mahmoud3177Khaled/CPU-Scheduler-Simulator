@@ -45,12 +45,12 @@
 //                 if(Objects.equals(completedProcesses.getLast().process.name, currentProcess.name))
 //                 completedProcesses.getLast().period++;
 //                 else{
-//                     processPeriod processPeriod1 = new processPeriod (currentProcess, 10);
+//                     processPeriod processPeriod1 = new processPeriod (currentProcess, 1);
 //                     completedProcesses.add(processPeriod1);
 //                 }
 //             }
 //             else{
-//                 processPeriod processPeriod1 = new processPeriod (currentProcess, 10);
+//                 processPeriod processPeriod1 = new processPeriod (currentProcess, 1);
 //                 completedProcesses.add(processPeriod1);
 //             }
 
