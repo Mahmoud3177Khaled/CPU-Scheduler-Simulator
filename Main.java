@@ -35,8 +35,8 @@ public class Main {
                         "Enter the processes in form(name - Arrival time - Burst time - Priority): ");
                 while (numberOfProcesses != 0) {
                     name = input.next();
-                    burstTime = input.nextInt();
                     arrivalTime = input.nextInt();
+                    burstTime = input.nextInt();
                     priority = input.nextInt();
                     processes.add(new Process(name, arrivalTime, burstTime, priority,Color.black));
                     numberOfProcesses--;
@@ -69,8 +69,8 @@ public class Main {
                         "Enter the processes in form(name - Arrival time - Burst time): ");
                 while (numberOfProcesses != 0) {
                     name = input.next();
-                    burstTime = input.nextInt();
                     arrivalTime = input.nextInt();
+                    burstTime = input.nextInt();
                     processes.add(new Process(name, arrivalTime, burstTime,Color.black));
                     numberOfProcesses--;
                 }
@@ -101,8 +101,8 @@ public class Main {
                         "Enter the processes in form(name - Arrival time - Burst time): ");
                 while (numberOfProcesses != 0) {
                     name = input.next();
-                    burstTime = input.nextInt();
                     arrivalTime = input.nextInt();
+                    burstTime = input.nextInt();
                     processes.add(new Process(name, arrivalTime, burstTime,Color.black));
                     numberOfProcesses--;
                 }
@@ -130,7 +130,7 @@ public class Main {
                 System.out.print("Enter the number of processes: ");
                 numberOfProcesses = input.nextInt();
                 System.out.println(
-                        "Enter the processes in form(name - Arrival time - Burst time - Priority - Quantum): ");
+                        "Enter the processes in form(name - Burst time - Arrival time - Priority - Quantum): ");
                 while (numberOfProcesses != 0) {
                     name = input.next();
                     burstTime = input.nextInt();
