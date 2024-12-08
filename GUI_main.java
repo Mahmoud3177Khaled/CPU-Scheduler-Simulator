@@ -14,6 +14,8 @@ public class GUI_main {
     static Scheduler scheduler;
     static FCAIScheduler FCAIscheduler;
     static ShortestRemainingTimeFirst shortestRemainingTimeFirst;
+    static PriorityScheduler priorityScheduler;
+    static ShortestJobFirstScheduler shortestJobFirstScheduler;
 
     static List<processPeriod> barProcesses = new ArrayList<>();
     static List<Process> statProcesses = new ArrayList<>();
@@ -172,18 +174,145 @@ public class GUI_main {
             } else {
 
                 
-                // scheduler = new ShortestJobFirstScheduler();
-                // scheduler.schedule(processes);
+                shortestJobFirstScheduler = new ShortestJobFirstScheduler();
+                shortestJobFirstScheduler.schedule(processes);
                 
-                // barProcesses = scheduler.getBarProcesses();
-                // barProcesses = scheduler.getStatProcesses();
+                barProcesses = shortestJobFirstScheduler.getProcessPeriods();
+                statProcesses = shortestJobFirstScheduler.getCompletedProcesses();
+                MetricsCalculator.calculateTimes(statProcesses);
                 
-                // JOptionPane.showMessageDialog(
-                //     null,                      
-                //     "Process sent to shortest job first schedular",
-                //     "Done",                       
-                //     JOptionPane.INFORMATION_MESSAGE
-                // );
+                JOptionPane.showMessageDialog(
+                    null,                      
+                    "Process sent to shortest job first schedular",
+                    "Done",                       
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+
+                // output panel
+                JLabel outputlabel1 = new JLabel("Results:");
+                outputlabel1.setFont(new Font("Arial", Font.BOLD, 17));
+                JLabel outputlabel2 = new JLabel("CPU Scheduling graph:");
+                outputlabel2.setFont(new Font("Arial", Font.BOLD, 15));
+
+                JPanel coloredBar = new JPanel() {
+                    @Override
+                    protected void paintComponent(Graphics g) {
+                        super.paintComponent(g);
+                        Graphics2D g2d = (Graphics2D) g;
+
+                        int panelWidth = getWidth();
+                        int panelHeight = getHeight();
+                        int lineHeight = 50;
+
+                        ArrayList<Integer> segmentWidths = new ArrayList<>();
+
+                        for (processPeriod proc : barProcesses) {
+                            segmentWidths.add(proc.period);
+                        }
+
+                        ArrayList<Color> segmentColors = new ArrayList<>();
+                        for (processPeriod proc : barProcesses) {
+                            segmentColors.add(proc.process.color);
+                        }
+
+                        // System.out.println(segmentWidths.size());
+                        // System.out.println(segmentColors.size());
+                        
+                        int sum = 0;
+                        for (int i = 0; i < segmentWidths.size(); i++) {
+                            sum += segmentWidths.get(i);
+                        }
+                        double scale = (400.0/sum);
+                        System.out.println(sum);
+                        System.out.println(scale);
+
+                        // Draw the rectangles
+                        int xOffset = 0;
+                        for (int i = 0; i < segmentWidths.size(); i++) {
+                            g2d.setColor(segmentColors.get(i));
+                            g2d.fillRect(xOffset, (panelHeight - lineHeight) / 2, (int) (segmentWidths.get(i)*scale), lineHeight);
+                            xOffset += segmentWidths.get(i)*scale;
+                        }
+                    }
+                };
+                coloredBar.setPreferredSize(new Dimension(400, 50));
+
+                JLabel outputlabel3 = new JLabel("---------------------------------   Processes Information:   ---------------------------------");
+                outputlabel3.setFont(new Font("Arial", Font.BOLD, 15));
+
+                JPanel tablePanel = new JPanel(new GridLayout(statProcesses.size()+1, 7, 10, 10)); 
+                tablePanel.add(new JLabel("Process"));
+                tablePanel.add(new JLabel("color"));
+                tablePanel.add(new JLabel("Name"));
+                tablePanel.add(new JLabel("Priority"));
+                tablePanel.add(new JLabel("Comp. time"));
+                tablePanel.add(new JLabel("Waiting"));
+                tablePanel.add(new JLabel("Turnaround"));
+
+                System.out.println("stat size: " + statProcesses.size());
+                
+                int i = 0;
+                for (Process proc : statProcesses) {
+                    System.out.println("in stat loop");
+                    
+                    JPanel colorSquare = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
+                    colorSquare.setPreferredSize(new Dimension(1, 10));
+                    colorSquare.setBackground(proc.color);
+                    // procLabel.setFont(new Font("Arial", Font.BOLD, 15));
+                    tablePanel.add(new JLabel(Integer.toString(i)));
+                    tablePanel.add(colorSquare);
+                    tablePanel.add(new JLabel(proc.name));
+                    tablePanel.add(new JLabel(Integer.toString(proc.priority)));
+                    tablePanel.add(new JLabel(Integer.toString(proc.completionTime)));
+                    tablePanel.add(new JLabel(Integer.toString(proc.waitingTime)));
+                    tablePanel.add(new JLabel(Integer.toString(proc.turnaroundTime)));
+                    i++;
+                }
+
+                JLabel outputlabel4 = new JLabel("-----------------------------------------    Statistics:    -----------------------------------------");
+                outputlabel4.setFont(new Font("Arial", Font.BOLD, 15));
+                JLabel outputlabel5 = new JLabel("Avergae waiting time:");
+                outputlabel5.setFont(new Font("Arial", Font.BOLD, 12));
+                JLabel outputlabel6 = new JLabel("Average turnaround time:");
+                outputlabel6.setFont(new Font("Arial", Font.BOLD, 12));
+
+                int sum = 0;
+                double avgWaiting = 0;
+                double avgTurnaround = 0;
+
+                for (Process proc : statProcesses) {
+                    sum += proc.waitingTime;
+                }
+                avgWaiting = (double) sum/statProcesses.size();
+
+                for (Process proc : statProcesses) {
+                    sum += proc.turnaroundTime;
+                }
+                avgTurnaround = (double) sum/statProcesses.size();
+
+                JLabel outputlabel7 = new JLabel(Double.toString(avgWaiting));
+                outputlabel7.setFont(new Font("Arial", Font.BOLD, 12));
+                JLabel outputlabel8 = new JLabel(Double.toString(avgTurnaround));
+                outputlabel8.setFont(new Font("Arial", Font.BOLD, 12));
+
+
+                coloredPanel.add(outputlabel1);
+                coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
+                coloredPanel.add(outputlabel2);
+                coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
+                coloredPanel.add(coloredBar);
+                coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
+                coloredPanel.add(outputlabel3);
+                coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
+                coloredPanel.add(tablePanel);
+                coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
+                coloredPanel.add(outputlabel4);
+                coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
+                coloredPanel.add(outputlabel5);
+                coloredPanel.add(outputlabel7);
+                coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
+                coloredPanel.add(outputlabel6);
+                coloredPanel.add(outputlabel8);
 
                 cardLayout.show(mainPanel, "colored");
             }
@@ -215,7 +344,7 @@ public class GUI_main {
                 // System.out.println(sjfarivaltime);
                 // System.out.println(sjfbursttime);
     
-                Process proc = new Process(sjfnameString, sjfarivaltime, sjfbursttime, colors.get(i++));
+                Process proc = new Process(sjfnameString, sjfarivaltime, sjfbursttime, colors.get(colorSelector++));
                 processes.add(proc);
     
                 // for (Process process : processes) {
@@ -310,18 +439,145 @@ public class GUI_main {
             } else {
 
                 
-                // scheduler = new PriorityScheduler();
-                // scheduler.schedule(processes);
+                priorityScheduler = new PriorityScheduler();
+                priorityScheduler.schedule(processes);
                 
-                // barProcesses = scheduler.getBarProcesses();
-                // barProcesses = scheduler.getStatProcesses();
+                barProcesses = priorityScheduler.getProcessPeriods();
+                statProcesses = priorityScheduler.getCompletedProcesses();
+                MetricsCalculator.calculateTimes(statProcesses);
                 
-                // JOptionPane.showMessageDialog(
-                //     null,                      
-                //     "Process sent to priority schedular",
-                //     "Done",                       
-                //     JOptionPane.INFORMATION_MESSAGE
-                // );
+                JOptionPane.showMessageDialog(
+                    null,                      
+                    "Process sent to priority schedular",
+                    "Done",                       
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+
+                // output panel
+                JLabel outputlabel1 = new JLabel("Results:");
+                outputlabel1.setFont(new Font("Arial", Font.BOLD, 17));
+                JLabel outputlabel2 = new JLabel("CPU Scheduling graph:");
+                outputlabel2.setFont(new Font("Arial", Font.BOLD, 15));
+
+                JPanel coloredBar = new JPanel() {
+                    @Override
+                    protected void paintComponent(Graphics g) {
+                        super.paintComponent(g);
+                        Graphics2D g2d = (Graphics2D) g;
+
+                        int panelWidth = getWidth();
+                        int panelHeight = getHeight();
+                        int lineHeight = 50;
+
+                        ArrayList<Integer> segmentWidths = new ArrayList<>();
+
+                        for (processPeriod proc : barProcesses) {
+                            segmentWidths.add(proc.period);
+                        }
+
+                        ArrayList<Color> segmentColors = new ArrayList<>();
+                        for (processPeriod proc : barProcesses) {
+                            segmentColors.add(proc.process.color);
+                        }
+
+                        // System.out.println(segmentWidths.size());
+                        // System.out.println(segmentColors.size());
+                        
+                        int sum = 0;
+                        for (int i = 0; i < segmentWidths.size(); i++) {
+                            sum += segmentWidths.get(i);
+                        }
+                        double scale = (400.0/sum);
+                        System.out.println(sum);
+                        System.out.println(scale);
+
+                        // Draw the rectangles
+                        int xOffset = 0;
+                        for (int i = 0; i < segmentWidths.size(); i++) {
+                            g2d.setColor(segmentColors.get(i));
+                            g2d.fillRect(xOffset, (panelHeight - lineHeight) / 2, (int) (segmentWidths.get(i)*scale), lineHeight);
+                            xOffset += segmentWidths.get(i)*scale;
+                        }
+                    }
+                };
+                coloredBar.setPreferredSize(new Dimension(400, 50));
+
+                JLabel outputlabel3 = new JLabel("---------------------------------   Processes Information:   ---------------------------------");
+                outputlabel3.setFont(new Font("Arial", Font.BOLD, 15));
+
+                JPanel tablePanel = new JPanel(new GridLayout(statProcesses.size()+1, 7, 10, 10)); 
+                tablePanel.add(new JLabel("Process"));
+                tablePanel.add(new JLabel("color"));
+                tablePanel.add(new JLabel("Name"));
+                tablePanel.add(new JLabel("Priority"));
+                tablePanel.add(new JLabel("Comp. time"));
+                tablePanel.add(new JLabel("Waiting"));
+                tablePanel.add(new JLabel("Turnaround"));
+
+                System.out.println("stat size: " + statProcesses.size());
+                
+                int i = 0;
+                for (Process proc : statProcesses) {
+                    System.out.println("in stat loop");
+                    
+                    JPanel colorSquare = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
+                    colorSquare.setPreferredSize(new Dimension(1, 10));
+                    colorSquare.setBackground(proc.color);
+                    // procLabel.setFont(new Font("Arial", Font.BOLD, 15));
+                    tablePanel.add(new JLabel(Integer.toString(i)));
+                    tablePanel.add(colorSquare);
+                    tablePanel.add(new JLabel(proc.name));
+                    tablePanel.add(new JLabel(Integer.toString(proc.priority)));
+                    tablePanel.add(new JLabel(Integer.toString(proc.completionTime)));
+                    tablePanel.add(new JLabel(Integer.toString(proc.waitingTime)));
+                    tablePanel.add(new JLabel(Integer.toString(proc.turnaroundTime)));
+                    i++;
+                }
+
+                JLabel outputlabel4 = new JLabel("-----------------------------------------    Statistics:    -----------------------------------------");
+                outputlabel4.setFont(new Font("Arial", Font.BOLD, 15));
+                JLabel outputlabel5 = new JLabel("Avergae waiting time:");
+                outputlabel5.setFont(new Font("Arial", Font.BOLD, 12));
+                JLabel outputlabel6 = new JLabel("Average turnaround time:");
+                outputlabel6.setFont(new Font("Arial", Font.BOLD, 12));
+
+                int sum = 0;
+                double avgWaiting = 0;
+                double avgTurnaround = 0;
+
+                for (Process proc : statProcesses) {
+                    sum += proc.waitingTime;
+                }
+                avgWaiting = (double) sum/statProcesses.size();
+
+                for (Process proc : statProcesses) {
+                    sum += proc.turnaroundTime;
+                }
+                avgTurnaround = (double) sum/statProcesses.size();
+
+                JLabel outputlabel7 = new JLabel(Double.toString(avgWaiting));
+                outputlabel7.setFont(new Font("Arial", Font.BOLD, 12));
+                JLabel outputlabel8 = new JLabel(Double.toString(avgTurnaround));
+                outputlabel8.setFont(new Font("Arial", Font.BOLD, 12));
+
+
+                coloredPanel.add(outputlabel1);
+                coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
+                coloredPanel.add(outputlabel2);
+                coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
+                coloredPanel.add(coloredBar);
+                coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
+                coloredPanel.add(outputlabel3);
+                coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
+                coloredPanel.add(tablePanel);
+                coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
+                coloredPanel.add(outputlabel4);
+                coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
+                coloredPanel.add(outputlabel5);
+                coloredPanel.add(outputlabel7);
+                coloredPanel.add(Box.createRigidArea(new Dimension(800, 0)));
+                coloredPanel.add(outputlabel6);
+                coloredPanel.add(outputlabel8);
 
                 cardLayout.show(mainPanel, "colored");
             }
@@ -356,7 +612,7 @@ public class GUI_main {
                 // System.out.println(pjfarivaltime);
                 // System.out.println(pjfbursttime);
 
-                Process proc = new Process(pjfnameString, pjfarivaltime, pjfbursttime, pjfpriorityInput, colors.get(i++));
+                Process proc = new Process(pjfnameString, pjfarivaltime, pjfbursttime, pjfpriorityInput, colors.get(colorSelector++));
                 processes.add(proc);
 
                 // for (Process process : processes) {
@@ -631,7 +887,7 @@ public class GUI_main {
                 // System.out.println(srtfarivaltime);
                 // System.out.println(srtfbursttime);
 
-                Process proc = new Process(srtfnameString, srtfarivaltime, srtfbursttime, srtfpriorityInput, colors.get(i++));
+                Process proc = new Process(srtfnameString, srtfarivaltime, srtfbursttime, srtfpriorityInput, colors.get(colorSelector++));
                 processes.add(proc);
 
                 // for (Process process : processes) {
