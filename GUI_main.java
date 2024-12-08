@@ -21,6 +21,7 @@ public class GUI_main {
     static List<Process> statProcesses = new ArrayList<>();
 
     static int colorSelector = 0;
+    static int contextSwitch = 0;
 
     static JPanel coloredPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 20));
 
@@ -713,6 +714,7 @@ public class GUI_main {
 
                 
                 shortestRemainingTimeFirst = new ShortestRemainingTimeFirst();
+                shortestRemainingTimeFirst.setContextSwitch(contextSwitch);
                 shortestRemainingTimeFirst.schedule(processes);
                 
                 barProcesses = shortestRemainingTimeFirst.getProcessPeriods();
@@ -877,6 +879,7 @@ public class GUI_main {
                 int srtfbursttime = Integer.parseInt(srtfburst.getText());
                 int srtfpriorityInput = Integer.parseInt(srtfpriority.getText());
                 int srtfcontextInput = Integer.parseInt(srtfcontext.getText());
+                contextSwitch = srtfcontextInput;
 
                 srtfname.setText("");
                 srtfarival.setText("");
