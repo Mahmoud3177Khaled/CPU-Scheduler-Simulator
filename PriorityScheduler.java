@@ -5,6 +5,10 @@ import java.util.List;
 public class PriorityScheduler implements Scheduler {
     private List<Process> completedProcesses = new ArrayList<>();
     private List<processPeriod> processPeriods = new ArrayList<>();
+    private int CONTEXT_SWITCH_TIME = 2; // Context switch time in time units
+    public void setContextSwitch(int contextSwitch) {
+        this.CONTEXT_SWITCH_TIME = contextSwitch;
+    }
 
     @Override
     public void schedule(List<Process> processes) {
@@ -42,6 +46,12 @@ public class PriorityScheduler implements Scheduler {
                 // Remove the executed process from the list
                 completedProcesses.add(nextProcess);
                 processes.remove(nextProcess);
+
+                // Add context switch time if there are still processes left
+                if (!processes.isEmpty()) {
+                    processPeriods.add(new processPeriod(new Process("CS",0,0), CONTEXT_SWITCH_TIME));
+                    currentTime += CONTEXT_SWITCH_TIME;
+                }
             } else {
                 // No process ready to execute, just advance time
                 currentTime++;

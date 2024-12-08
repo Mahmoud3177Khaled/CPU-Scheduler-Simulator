@@ -42,6 +42,9 @@ public class Main {
                     processes.add(new Process(name, arrivalTime, burstTime, priority, Color.black));
                     numberOfProcesses--;
                 }
+                System.out.print("Enter the context switch time: ");
+                contextSwitch = input.nextInt();
+                ((PriorityScheduler) scheduler).setContextSwitch(contextSwitch);
                 scheduler.schedule(processes);
                 List<processPeriod> periods = ((PriorityScheduler) scheduler).getProcessPeriods();
                 System.out.println("\n--------------------------");
