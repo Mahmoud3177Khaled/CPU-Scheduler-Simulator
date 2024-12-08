@@ -27,7 +27,7 @@ public class ShortestRemainingTimeFirst implements Scheduler {
         Process currentProcess = null;
         PriorityQueue<Process> readyQueue = new PriorityQueue<>(Comparator.comparingInt(process -> process.remainingTime));
         processes.sort(Comparator.comparingInt(p -> p.arrivalTime));
-        
+
         while (!readyQueue.isEmpty() || !processes.isEmpty() || currentProcess != null) {
 
             if(!processes.isEmpty()) {
@@ -53,44 +53,29 @@ public class ShortestRemainingTimeFirst implements Scheduler {
                         processPeriod processPeriod1 = new processPeriod (currentProcess, 1);
                         completedProcesses.add(contextPeriod);
                         completedProcesses.add(processPeriod1);
-                        currentTime+=contextSwitch;
+                        currentTime+= contextSwitch;
 
                     }
                     else{
                         completedProcesses.getLast().period++;
                     }
                 }
+                else if( currentProcess != null ){
+                    completedProcesses.getLast().period++;
+                }
             }
-
-//            assert currentProcess != null;
-//            if(!completedProcesses.isEmpty()){
-//
-//                if(Objects.equals(completedProcesses.getLast().process.name, currentProcess.name))
-//                completedProcesses.getLast().period++;
-//                else{
-//                    processPeriod processPeriod1 = new processPeriod (currentProcess, 1);
-//                    completedProcesses.add(processPeriod1);
-//
-//                }
-//
-//            }
-//            else{
-//                processPeriod processPeriod1 = new processPeriod (currentProcess, 1);
-//                completedProcesses.add(processPeriod1);
-//            }
-
 
             currentProcess.remainingTime--;
 
+            currentTime++;
             if(currentProcess.remainingTime == 0) {
                 currentProcess.turnaroundTime = currentTime -  currentProcess.arrivalTime;
                 currentProcess.waitingTime = currentProcess.turnaroundTime - currentProcess.burstTime;
                 currentProcess.completionTime = currentTime;
                 currentProcess = null;
                 completedProcesses.add(contextPeriod);
-                currentTime+=contextSwitch;
+                currentTime+= contextSwitch;
             }
-            currentTime++;
 
 
         }
@@ -98,11 +83,11 @@ public class ShortestRemainingTimeFirst implements Scheduler {
 
 
     @Override
-    public List<Process> getCompletedProcesses() {
-        return executedProcesses;
+    public List<Process> getCompletedProcesses() {return executedProcesses;
     }
 
     public List<processPeriod> getProcessPeriods() {
+        completedProcesses.removeLast();
         return completedProcesses;
     }
 }
