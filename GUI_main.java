@@ -862,7 +862,7 @@ public class GUI_main {
         });
         srtfadd.addActionListener(e -> {
 
-            if(srtfname.getText().isEmpty() || srtfarival.getText().isEmpty() || srtfburst.getText().isEmpty() || srtfpriority.getText().isEmpty() || srtfcontext.getText().isEmpty()) {
+            if(srtfname.getText().isEmpty() || srtfarival.getText().isEmpty() || srtfburst.getText().isEmpty() || srtfpriority.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(
                     null,                 
                     "Please fill all fields",  
