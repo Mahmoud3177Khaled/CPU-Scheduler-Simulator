@@ -52,6 +52,10 @@ public class Main {
                 System.out.println("--------------------------");
                 int time =periods.get(0).process.arrivalTime;
                 for (processPeriod processPeriod : periods) {
+                    if(processPeriod.process.arrivalTime > time ){
+                        System.out.println(time+" --> "+ processPeriod.process.arrivalTime +" no process in CPU");
+                        time =processPeriod.process.arrivalTime;
+                    }
                     System.out.println(
                             time + " --> " + (time + processPeriod.period) + " - " + processPeriod.process.name);
                     time += processPeriod.period;
@@ -88,6 +92,10 @@ public class Main {
                 System.out.println("--------------------------");
                 int time =periods.get(0).process.arrivalTime;
                 for (processPeriod processPeriod : periods) {
+                    if(processPeriod.process.arrivalTime > time ){
+                        System.out.println(time+" --> "+ processPeriod.process.arrivalTime +" no process in CPU");
+                        time =processPeriod.process.arrivalTime;
+                    }
                     System.out.println(
                             time + " --> " + (time + processPeriod.period) + " - " + processPeriod.process.name);
                     time += processPeriod.period;
@@ -126,6 +134,10 @@ public class Main {
                 System.out.println("--------------------------");
                 int time =periods.get(0).process.arrivalTime;
                 for (processPeriod processPeriod : periods) {
+                    if(processPeriod.process.arrivalTime > time ){
+                        System.out.println(time+" --> "+ processPeriod.process.arrivalTime +" no process in CPU");
+                        time =processPeriod.process.arrivalTime;
+                    }
                     System.out.println(
                             time + " --> " + (time + processPeriod.period) + " - " + processPeriod.process.name);
                     time += processPeriod.period;
