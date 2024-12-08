@@ -29,9 +29,9 @@ public class GUI_main {
         // Scanner input = new Scanner(System.in);
         List<Process> processes = new ArrayList<>();
         List<Color> colors = new ArrayList<>();
-        colors.add(new Color(142,69,133));
-        colors.add(new Color(190,81,3));
         colors.add(new Color(99,149,238));
+        colors.add(new Color(190,81,3));
+        colors.add(new Color(142,69,133));
         colors.add(new Color(255,191,0));
         colors.add(new Color(205,28,24));
         colors.add(new Color(50));
@@ -44,28 +44,14 @@ public class GUI_main {
         colors.add(new Color(170));
         colors.add(new Color(150));
         colors.add(new Color(160));
-        // int numberOfProcesses;
-        // String name;
-        // int burstTime;
-        // int arrivalTime;
-        // int priority;
-        // int quantum;
-        // barProcesses.add(new Process('a', ));
-        // statProcesses.add(new Process("a", 1, 1));
-        // statProcesses.add(new Process("bbb", 2, 1));
-        // statProcesses.add(new Process("c", 3, 1));
-        // statProcesses.add(new Process("d", 4, 1));
-
-        // Create the main frame
+        
         JFrame frame = new JFrame("CPU Schedulers Project");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 650);
 
-        // Create the CardLayout
         CardLayout cardLayout = new CardLayout();
         JPanel mainPanel = new JPanel(cardLayout);
 
-        // Create the Welcome Menu panel with FlowLayout
         JPanel menuPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 20)); // Centered, with gaps
 
         JLabel mainLabel1 = new JLabel("Operating systems CPU Schedulers Assignment");
@@ -84,7 +70,7 @@ public class GUI_main {
         JLabel mainLabelDev2 = new JLabel("2. Philopater Karam: 20220246");
         mainLabelDev2.setHorizontalAlignment(SwingConstants.CENTER);
         mainLabelDev2.setFont(new Font("Arial", Font.BOLD, 13));
-        JLabel mainLabelDev3 = new JLabel("3. Mahmoud Farag: 20220???  ");
+        JLabel mainLabelDev3 = new JLabel("3. Mahmoud Farag: 20220419  ");
         mainLabelDev3.setHorizontalAlignment(SwingConstants.CENTER);
         mainLabelDev3.setFont(new Font("Arial", Font.BOLD, 13));
         JLabel mainLabelDev4 = new JLabel("4. Kirolos Adel: 20220???        ");
@@ -441,6 +427,7 @@ public class GUI_main {
 
                 
                 priorityScheduler = new PriorityScheduler();
+                priorityScheduler.setContextSwitch(contextSwitch);
                 priorityScheduler.schedule(processes);
                 
                 barProcesses = priorityScheduler.getProcessPeriods();
@@ -603,12 +590,13 @@ public class GUI_main {
                 int pjfbursttime = Integer.parseInt(pjfburst.getText());
                 int pjfpriorityInput = Integer.parseInt(pjfpriority.getText());
                 int pjfcontextInput = Integer.parseInt(pjfcontext.getText());
+                contextSwitch = pjfcontextInput;
 
                 pjfname.setText("");
                 pjfarival.setText("");
                 pjfburst.setText("");
                 pjfpriority.setText("");
-                pjfcontext.setText("");
+                // pjfcontext.setText("");
                 // System.out.println(pjfnameString);
                 // System.out.println(pjfarivaltime);
                 // System.out.println(pjfbursttime);
@@ -691,7 +679,7 @@ public class GUI_main {
         JTextField srtfname = new JTextField(10);  
         JTextField srtfarival = new JTextField(10); 
         JTextField srtfburst = new JTextField(10); 
-        JTextField srtfpriority = new JTextField(10); 
+        // JTextField srtfpriority = new JTextField(10); 
         JTextField srtfcontext = new JTextField(10); 
 
         JButton srtfstart = new JButton("Start Scheduling!");
@@ -862,7 +850,7 @@ public class GUI_main {
         });
         srtfadd.addActionListener(e -> {
 
-            if(srtfname.getText().isEmpty() || srtfarival.getText().isEmpty() || srtfburst.getText().isEmpty() || srtfpriority.getText().isEmpty()) {
+            if(srtfname.getText().isEmpty() || srtfarival.getText().isEmpty() || srtfburst.getText().isEmpty() || srtfcontext.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(
                     null,                 
                     "Please fill all fields",  
@@ -877,20 +865,20 @@ public class GUI_main {
                 String srtfnameString = srtfname.getText();
                 int srtfarivaltime = Integer.parseInt(srtfarival.getText());
                 int srtfbursttime = Integer.parseInt(srtfburst.getText());
-                int srtfpriorityInput = Integer.parseInt(srtfpriority.getText());
+                // int srtfpriorityInput = Integer.parseInt(srtfpriority.getText());
                 int srtfcontextInput = Integer.parseInt(srtfcontext.getText());
                 contextSwitch = srtfcontextInput;
 
                 srtfname.setText("");
                 srtfarival.setText("");
                 srtfburst.setText("");
-                srtfpriority.setText("");
-                srtfcontext.setText("");
+                // srtfpriority.setText("");
+                // srtfcontext.setText("");
                 // System.out.println(srtfnameString);
                 // System.out.println(srtfarivaltime);
                 // System.out.println(srtfbursttime);
 
-                Process proc = new Process(srtfnameString, srtfarivaltime, srtfbursttime, srtfpriorityInput, colors.get(colorSelector++));
+                Process proc = new Process(srtfnameString, srtfarivaltime, srtfbursttime, 0, colors.get(colorSelector++));
                 processes.add(proc);
 
                 // for (Process process : processes) {
@@ -930,9 +918,9 @@ public class GUI_main {
         srtfPanel.add(Box.createRigidArea(new Dimension(800, 0)));
         srtfPanel.add(srtflabel5);
         srtfPanel.add(srtfburst);
-        srtfPanel.add(Box.createRigidArea(new Dimension(800, 0)));
-        srtfPanel.add(srtflabel6);
-        srtfPanel.add(srtfpriority);
+        // srtfPanel.add(Box.createRigidArea(new Dimension(800, 0)));
+        // srtfPanel.add(srtflabel6);
+        // srtfPanel.add(srtfpriority);
         srtfPanel.add(Box.createRigidArea(new Dimension(800, 0)));
         srtfPanel.add(srtflabel7);
         srtfPanel.add(srtfcontext);

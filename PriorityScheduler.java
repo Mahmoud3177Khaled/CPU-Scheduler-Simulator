@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -49,7 +50,7 @@ public class PriorityScheduler implements Scheduler {
 
                 // Add context switch time if there are still processes left
                 if (!processes.isEmpty()) {
-                    processPeriods.add(new processPeriod(new Process("CS",0,0), CONTEXT_SWITCH_TIME));
+                    processPeriods.add(new processPeriod(new Process("CS",0,0, Color.gray), CONTEXT_SWITCH_TIME));
                     currentTime += CONTEXT_SWITCH_TIME;
                 }
             } else {
