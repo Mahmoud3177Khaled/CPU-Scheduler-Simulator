@@ -90,7 +90,7 @@ public class GUI_main {
         JLabel mainLabelDev4 = new JLabel("4. Kirolos Adel: 20220???        ");
         mainLabelDev4.setHorizontalAlignment(SwingConstants.CENTER);
         mainLabelDev4.setFont(new Font("Arial", Font.BOLD, 13));
-        JLabel mainLabelDev5 = new JLabel("5. Jonathan Mokhles: 20220???");
+        JLabel mainLabelDev5 = new JLabel("5. Jonathan Mokhles: 20220100");
         mainLabelDev5.setHorizontalAlignment(SwingConstants.CENTER);
         mainLabelDev5.setFont(new Font("Arial", Font.BOLD, 13));
 
