@@ -4,6 +4,7 @@ import java.util.List;
 
 public class PriorityScheduler implements Scheduler {
     private List<Process> completedProcesses = new ArrayList<>();
+    private List<processPeriod> processPeriods = new ArrayList<>();
 
     @Override
     public void schedule(List<Process> processes) {
@@ -26,11 +27,17 @@ public class PriorityScheduler implements Scheduler {
             }
 
             if (nextProcess != null) {
+                // Record the start period for the process
+                int startPeriod = currentTime;
+
                 // Simulate execution
                 currentTime += nextProcess.burstTime; // Process runs to completion
                 nextProcess.completionTime = currentTime;
                 nextProcess.turnaroundTime = nextProcess.completionTime - nextProcess.arrivalTime;
                 nextProcess.waitingTime = nextProcess.turnaroundTime - nextProcess.burstTime;
+
+                // Record the process execution period
+                processPeriods.add(new processPeriod(nextProcess, currentTime - startPeriod));
 
                 // Remove the executed process from the list
                 completedProcesses.add(nextProcess);
@@ -41,7 +48,12 @@ public class PriorityScheduler implements Scheduler {
             }
         }
     }
+
     public List<Process> getCompletedProcesses() {
         return completedProcesses;
+    }
+
+    public List<processPeriod> getProcessPeriods() {
+        return processPeriods;
     }
 }

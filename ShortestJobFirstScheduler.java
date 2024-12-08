@@ -4,6 +4,7 @@ import java.util.List;
 
 public class ShortestJobFirstScheduler implements Scheduler {
     private List<Process> completedProcesses = new ArrayList<>();
+    private List<processPeriod> processPeriods = new ArrayList<>(); // List to store process periods
 
     @Override
     public void schedule(List<Process> processes) {
@@ -25,12 +26,17 @@ public class ShortestJobFirstScheduler implements Scheduler {
 
             if (nextProcess != null) {
                 // Execute the process
+                int startTime = currentTime;
                 currentTime += nextProcess.burstTime;
                 nextProcess.completionTime = currentTime;
                 nextProcess.turnaroundTime = nextProcess.completionTime - nextProcess.arrivalTime;
                 nextProcess.waitingTime = nextProcess.turnaroundTime - nextProcess.burstTime;
 
-                // Move the process to completed list
+                // Add the process period (duration) to the list
+                int period = nextProcess.burstTime;
+                processPeriods.add(new processPeriod(nextProcess, period));
+
+                // Move the process to the completed list
                 completedProcesses.add(nextProcess);
                 processes.remove(nextProcess);
             } else {
@@ -43,5 +49,9 @@ public class ShortestJobFirstScheduler implements Scheduler {
     @Override
     public List<Process> getCompletedProcesses() {
         return completedProcesses;
+    }
+
+    public List<processPeriod> getProcessPeriods() {
+        return processPeriods;
     }
 }
