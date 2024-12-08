@@ -67,7 +67,7 @@ public class GUI_main {
         JLabel mainLabelDev1 = new JLabel("1. Mahmoud Khaled: 20220317");
         mainLabelDev1.setHorizontalAlignment(SwingConstants.CENTER);
         mainLabelDev1.setFont(new Font("Arial", Font.BOLD, 13));
-        JLabel mainLabelDev2 = new JLabel("2. Philopater Karam: 20220246");
+        JLabel mainLabelDev2 = new JLabel("2. Philopateer Karam: 20220246");
         mainLabelDev2.setHorizontalAlignment(SwingConstants.CENTER);
         mainLabelDev2.setFont(new Font("Arial", Font.BOLD, 13));
         JLabel mainLabelDev3 = new JLabel("3. Mahmoud Farag: 20220419  ");
