@@ -27,24 +27,20 @@ public class ShortestRemainingTimeFirst implements Scheduler {
         processes.sort(Comparator.comparingInt(p -> p.arrivalTime));
 
         while (!readyQueue.isEmpty() || !processes.isEmpty() || currentProcess != null) {
-            // Add arriving processes to the ready queue
             while (!processes.isEmpty() && processes.get(0).arrivalTime <= currentTime) {
                 Process arrivingProcess = processes.remove(0);
                 readyQueue.add(arrivingProcess);
-                waitingTimeMap.put(arrivingProcess, 0); // Initialize waiting time
+                waitingTimeMap.put(arrivingProcess, 0); 
             }
 
-            // Update waiting times for processes in the ready queue
             for (Process p : readyQueue) {
                 waitingTimeMap.put(p, waitingTimeMap.get(p) + 1);
 
-                // Apply aging: boost priority if waiting time exceeds threshold
-                if (waitingTimeMap.get(p) > 10) { // Example threshold
+                if (waitingTimeMap.get(p) > 10) { 
                     p.remainingTime = Math.max(1, p.remainingTime - 1);
                 }
             }
 
-            // If no current process, fetch the next process
             if (currentProcess == null && !readyQueue.isEmpty()) {
                 currentProcess = readyQueue.poll();
                 completedProcesses.add(new processPeriod(currentProcess, 1));
@@ -60,13 +56,11 @@ public class ShortestRemainingTimeFirst implements Scheduler {
                 }
             }
 
-            // Process execution
             if (currentProcess != null) {
                 currentProcess.remainingTime--;
             }
             currentTime++;
 
-            // Process completion
             if (currentProcess != null && currentProcess.remainingTime == 0) {
                 currentProcess.turnaroundTime = currentTime - currentProcess.arrivalTime;
                 currentProcess.waitingTime = currentProcess.turnaroundTime - currentProcess.burstTime;
