@@ -9,6 +9,13 @@
             "name": "GUI_main",
             "request": "launch",
             "mainClass": "GUI_main",
+            "projectName": "CPU-Scheduler-Simulator_56fd7f43"
+        },
+        {
+            "type": "java",
+            "name": "GUI_main",
+            "request": "launch",
+            "mainClass": "GUI_main",
             "projectName": "CPU-Scheduler-Simulator_f5cf2b81"
         },
         {
